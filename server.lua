@@ -24,7 +24,7 @@ AddEventHandler("esx_policeArmory:weaponTakenOut", function(weapon,giveAmmo)
 		end)
         xPlayer.addWeapon(weapon, Config.AmmountOfAmmo)
 		local DATE = os.date("%H:%M (%d.%m.%y)")
-		local message = "**" ..GetPlayerName(source).. "** [" ..xPlayer.getIdentifier().. "] **|** has **taken** " .. ESX.GetWeaponLabel(weapon) .. " from the Police Armory **|** " ..DATE
+		local message = "**" ..xPlayer.getName().. "** [" ..xPlayer.getIdentifier().. "] **|** has **taken** " .. ESX.GetWeaponLabel(weapon) .. " from the Police Armory **|** " ..DATE
 		PerformHttpRequest(""..Config.DiscordWebook.."", function(err, text, headers) end, 'POST', json.encode({username = "Police Armory", content = message}), { ['Content-Type'] = 'application/json' })
 		TriggerClientEvent("esx:showNotification", source, "You ~y~took~s~ 1x ~r~" .. ESX.GetWeaponLabel(weapon).."~r~")
     end
@@ -46,7 +46,7 @@ AddEventHandler("esx_policeArmory:weaponInStock", function(weapon,ammo,giveAmmo)
 			end)
 		end)
 		local DATE = os.date("%H:%M (%d.%m.%y)")
-		local message = "**" ..GetPlayerName(source).. "** [" ..xPlayer.getIdentifier().. "] **|** has **put** " .. ESX.GetWeaponLabel(weapon) .. " back into the Police Armory **|** " ..DATE
+		local message = "**" ..xPlayer.getName().. "** [" ..xPlayer.getIdentifier().. "] **|** has **put** " .. ESX.GetWeaponLabel(weapon) .. " back into the Police Armory **|** " ..DATE
 		PerformHttpRequest(""..Config.DiscordWebook.."", function(err, text, headers) end, 'POST', json.encode({username = "Police Armory", content = message}), { ['Content-Type'] = 'application/json' })
         TriggerClientEvent("esx:showNotification", source, "You ~y~returned~s~ 1x ~r~" .. ESX.GetWeaponLabel(weapon) .. "~r~")
     end
@@ -70,7 +70,7 @@ ESX.RegisterServerCallback("esx_policeArmory:checkPoliceOnline", function(source
         for k,v in pairs(rowsChanged) do
             local xPlayer = ESX.GetPlayerFromIdentifier(v.identifier)
             if xPlayer ~= nil then
-                table.insert(police,{id = v.identifier,name = GetPlayerName(source),job = xPlayer.getJob()})
+                table.insert(police,{id = v.identifier,name = xPlayer.getName(),job = xPlayer.getJob()})
              end
          end
          cb(police)
@@ -84,7 +84,7 @@ AddEventHandler("esx_policeArmory:restockWeapons", function(id)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local target = ESX.GetPlayerFromIdentifier(id)
 	local DATE = os.date("%H:%M (%d.%m.%y)")
-	local message = "**" ..GetPlayerName(source).. "** [" ..xPlayer.getIdentifier().. "] **|** has **restocked** weapons for **" ..target.getName().. "** **|** " ..DATE
+	local message = "**" ..xPlayer.getName().. "** [" ..xPlayer.getIdentifier().. "] **|** has **restocked** weapons for **" ..target.getName().. "** **|** " ..DATE
 	PerformHttpRequest(""..Config.DiscordWebook.."", function(err, text, headers) end, 'POST', json.encode({username = "Police Armory", content = message}), { ['Content-Type'] = 'application/json' })	
 
     if xPlayer then

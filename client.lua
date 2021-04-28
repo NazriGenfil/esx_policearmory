@@ -111,7 +111,8 @@ end)
 PoliceArmory = function()
 	local elements = {
 		{ label = Config.WeaponStorage, action = "weapon_menu" },
-		{ label = 'Deposit Item', action = 'put_stock'}
+		{ label = 'Deposit Item', action = 'put_stock'},
+		{ label = 'Masukan senjata', action = 'put_weapon'}
 	}
 	
 	if not IsEntityPlayingAnim(GetPlayerPed(-1), 'mini@repair', 'fixing_a_player', 3) then
@@ -121,8 +122,9 @@ PoliceArmory = function()
     end
 	
 	if tonumber(ESX.PlayerData.job.grade) >= Config.RestockGrade then
-		table.insert(elements, {label = Config.RestockWeapon, action = "restock_menu"})
+		table.insert(elements, {label = 'Ambil senjata',  action = 'get_weapon'})
 		table.insert(elements, {label = 'Ambil Item',  action = 'get_stock'})
+		table.insert(elements, {label = Config.RestockWeapon, action = "restock_menu"})
 	end
 	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), "esx_policeArmory_main_menu",
@@ -142,12 +144,76 @@ PoliceArmory = function()
 			OpenPutStocksMenu()
 		elseif action == "get_stock" then
 			OpenGetStocksMenu()
+		elseif action == "put_weapon" then
+			OpenPutWeaponMenu()
+		elseif action == 'get_weapon' then
+			OpenGetWeaponMenu()
 		end	
 	end, function(data, menu)
 		menu.close()
 		insideMarker = false
 		ClearPedSecondaryTask(GetPlayerPed(-1))
 	end, function(data, menu)
+	end)
+end
+
+function OpenGetWeaponMenu()
+	ESX.TriggerServerCallback('esx_policejob:getArmoryWeapons', function(weapons)
+		local elements = {}
+
+		for i=1, #weapons, 1 do
+			if weapons[i].count > 0 then
+				table.insert(elements, {
+					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
+					value = weapons[i].name
+				})
+			end
+		end
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
+			title    = 'Ambil senjata',
+			align    = 'top-right',
+			elements = elements
+		}, function(data, menu)
+			menu.close()
+
+			ESX.TriggerServerCallback('esx_policejob:removeArmoryWeapon', function()
+				OpenGetWeaponMenu()
+			end, data.current.value)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
+end
+
+function OpenPutWeaponMenu()
+	local elements   = {}
+	local playerPed  = PlayerPedId()
+	local weaponList = ESX.GetWeaponList()
+
+	for i=1, #weaponList, 1 do
+		local weaponHash = GetHashKey(weaponList[i].name)
+
+		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
+			table.insert(elements, {
+				label = weaponList[i].label,
+				value = weaponList[i].name
+			})
+		end
+	end
+
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
+		title    = 'Masukan senjata',
+		align    = 'top-right',
+		elements = elements
+	}, function(data, menu)
+		menu.close()
+
+		ESX.TriggerServerCallback('esx_policejob:addArmoryWeapon', function()
+			OpenPutWeaponMenu()
+		end, data.current.value, true)
+	end, function(data, menu)
+		menu.close()
 	end)
 end
 
