@@ -107,16 +107,16 @@ Config.RestockGrade = 11
 -- Set amount of ammo you want when taking a weapon out
 Config.AmmountOfAmmo = 250
 
--- Here u add weapons and its components (set nil at a component to disable it).
+-- Here u add weapons and its components (set nil at a component to disable it). [UNTUK WEAPON HARUS MENGGUNAKAN HURUS BESAR SEMUA]
 Config.WeaponsInArmory = {
 	{ weaponHash = 'WEAPON_FLASHLIGHT', label = 'Senter', type = 'other', attachment = false, flashlight = nil, scope = nil, suppressor = nil},
 	{ weaponHash = 'WEAPON_NIGHTSTICK', label = 'Nightstick', type = 'other', attachment = false, flashlight = nil, scope = nil, suppressor = nil  },
 	{ weaponHash = 'WEAPON_STUNGUN', label = 'Taser', type = 'other', attachment = false, flashlight = nil, scope = nil, suppressor = nil  },
 	--{ weaponHash = 'WEAPON_PISTOL', label = 'Pistol', type = 'pistol', attachment = true, flashlight = 0x43FD595B, scope = nil, suppressor = 0x65EA7EBB},
-	{ weaponHash = 'weapon_assaultsmg', label = 'Assault SMG', type = 'submachine ', attachment = true, flashlight = 0x43FD595B, scope = nil, suppressor = 0x65EA7EBB},
+	{ weaponHash = 'WEAPON_ASSAULTSMG', label = 'Assault SMG', type = 'submachine ', attachment = true, flashlight = 0x43FD595B, scope = nil, suppressor = 0x65EA7EBB},
 	{ weaponHash = 'WEAPON_PISTOL50', label = 'Pistol 50', type = 'pistol50', attachment = true, flashlight = 0x7BC4CDDC, scope = 0x3CC6BA57, suppressor = 0xC304849A  },
 	{ weaponHash = 'WEAPON_SPECIALCARBINE', label = 'Special Carbine', type = 'rifle', attachment = true, flashlight = 0x7BC4CDDC, scope = 0x49B2945, suppressor = 0x837445AA  },
-	{ weaponHash = 'weapon_carbinerifle', label = 'Carbine Rifle', type = 'rifle', attachment = true, flashlight = 0x7BC4CDDC, scope = nil, suppressor = nil  },
+	{ weaponHash = 'WEAPON_CARBINERIFLE', label = 'Carbine Rifle', type = 'rifle', attachment = true, flashlight = 0x7BC4CDDC, scope = nil, suppressor = nil  },
 	{ weaponHash = 'WEAPON_PUMPSHOTGUN', label = 'Less Lethal Shotgun', type = 'rifle', attachment = true, flashlight = 0x7BC4CDDC, scope = 0x49B2945, suppressor = 0x837445AA  },
 }
 
